@@ -1,0 +1,11 @@
+这段代码定义了一个名为 `UserProgressContext` 的 React 上下文（Context）。
+它的作用是提供一个全局的状态管理器，用于管理用户的进度状态和操作函数。
+具体来说：
+
+1. `UserProgressContext` 是通过 `createContext` 函数创建的，它创建了一个包含了用户进度状态和相关操作函数的上下文对象。
+
+2. `UserProgressContextProvider` 是一个 React 组件，它通过 `useState` Hook 创建了用户进度状态，并提供了显示购物车、隐藏购物车、显示结账页面、隐藏结账页面等操作的方法。
+
+3. `showCart`、`hideCart`、`showCheckout` 和 `hideCheckout` 分别是用于执行显示购物车、隐藏购物车、显示结账页面和隐藏结账页面的操作函数。这些函数通过修改用户进度状态来实现对用户进度的管理。
+
+4. 最后，该组件导出了 `UserProgressContext` 上下文对象，使其他组件可以通过 `useContext` Hook 来访问用户的进度状态和相关操作函数，从而实现全局状态管理。

@@ -1,24 +1,24 @@
 import { useContext } from 'react';
 
-import Modal from './UI/Modal.jsx';
-import CartContext from '../store/CartContext.jsx';
-import { currencyFormatter } from '../util/formatting.js';
-import Input from './UI/Input.jsx';
-import Button from './UI/Button.jsx';
-import UserProgressContext from '../store/UserProgressContext.jsx';
-import useHttp from '../hooks/useHttp.js';
-import Error from './Error.jsx';
+import Modal from './UI/Modal.jsx'; // 引入Modal组件
+import CartContext from '../store/CartContext.jsx'; // 引入购物车上下文
+import { currencyFormatter } from '../util/formatting.js'; // 引入货币格式化工具
+import Input from './UI/Input.jsx'; // 引入Input组件
+import Button from './UI/Button.jsx'; // 引入Button组件
+import UserProgressContext from '../store/UserProgressContext.jsx'; // 引入用户进度上下文
+import useHttp from '../hooks/useHttp.js'; // 引入自定义HTTP钩子
+import Error from './Error.jsx'; // 引入Error组件
 
-const requestConfig = {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
+const requestConfig = { // 配置请求信息
+  method: 'POST', // 请求方法
+  headers: { // 请求头
+    'Content-Type': 'application/json', // 内容类型
   },
 };
 
 export default function Checkout() {
-  const cartCtx = useContext(CartContext);
-  const userProgressCtx = useContext(UserProgressContext);
+  const cartCtx = useContext(CartContext); // 使用购物车上下文
+  const userProgressCtx = useContext(UserProgressContext); // 使用用户进度上下文
 
   const {
     data,
@@ -26,40 +26,40 @@ export default function Checkout() {
     error,
     sendRequest,
     clearData
-  } = useHttp('http://localhost:3000/orders', requestConfig);
+  } = useHttp('http://localhost:3000/orders', requestConfig); // 使用自定义HTTP钩子
 
   const cartTotal = cartCtx.items.reduce(
-    (totalPrice, item) => totalPrice + item.quantity * item.price,
+    (totalPrice, item) => totalPrice + item.quantity * item.price, // 计算购物车总金额
     0
   );
 
-  function handleClose() {
+  function handleClose() { // 处理关闭模态框
     userProgressCtx.hideCheckout();
   }
 
-  function handleFinish() {
+  function handleFinish() { // 处理完成订单
     userProgressCtx.hideCheckout();
-    cartCtx.clearCart();
-    clearData();
+    cartCtx.clearCart(); // 清空购物车
+    clearData(); // 清除请求数据
   }
 
-  function handleSubmit(event) {
+  function handleSubmit(event) { // 提交表单
     event.preventDefault();
 
     const fd = new FormData(event.target);
-    const customerData = Object.fromEntries(fd.entries()); // { email: test@example.com }
+    const customerData = Object.fromEntries(fd.entries()); // 从表单数据中获取客户数据
 
     sendRequest(
       JSON.stringify({
         order: {
-          items: cartCtx.items,
-          customer: customerData,
+          items: cartCtx.items, // 订单项
+          customer: customerData, // 客户信息
         },
       })
     );
   }
 
-  let actions = (
+  let actions = ( // 根据状态设置动作按钮
     <>
       <Button type="button" textOnly onClick={handleClose}>
         Close
@@ -68,11 +68,11 @@ export default function Checkout() {
     </>
   );
 
-  if (isSending) {
+  if (isSending) { // 如果正在发送数据，显示提示
     actions = <span>Sending order data...</span>;
   }
 
-  if (data && !error) {
+  if (data && !error) { // 如果订单提交成功且无错误，显示成功信息
     return (
       <Modal
         open={userProgressCtx.progress === 'checkout'}
@@ -91,7 +91,7 @@ export default function Checkout() {
     );
   }
 
-  return (
+  return ( // 渲染结账模态框
     <Modal open={userProgressCtx.progress === 'checkout'} onClose={handleClose}>
       <form onSubmit={handleSubmit}>
         <h2>Checkout</h2>
@@ -112,3 +112,4 @@ export default function Checkout() {
     </Modal>
   );
 }
+
