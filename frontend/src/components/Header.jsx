@@ -17,7 +17,6 @@ export default function Header() {
   // 用户进度的上下文
   const userProgressCtx = useContext(UserProgressContext);
 
-
   // 这里的reduce函数中的0是用来初始化totalNumberOfItems的
 
   // 计算购物车中所有商品的总数量

@@ -77,20 +77,24 @@ function cartReducer(state, action) {
 // 导出购物车上下文提供程序组件
 export function CartContextProvider({ children }) {
   // 使用 useReducer 创建购物车状态和调度函数
+  // 这儿 { items: [] } 是 传入 cartReducer() 函数 的 state参数 的初始值
   const [cart, dispatchCartAction] = useReducer(cartReducer, { items: [] });
 
   // 定义向购物车中添加商品的函数
   function addItem(item) {
+    // 这儿 { type: 'ADD_ITEM', item } 是传递给 dispatchCartAction() 的 action参数，会传递给 cartReducer() 函数
     dispatchCartAction({ type: 'ADD_ITEM', item });
   }
 
   // 定义从购物车中移除商品的函数
   function removeItem(id) {
+    // 这儿 { type: 'REMOVE_ITEM', id } 是传递给 dispatchCartAction 的 action，会传递给 cartReducer() 函数
     dispatchCartAction({ type: 'REMOVE_ITEM', id });
   }
 
   // 定义清空购物车的函数
   function clearCart() {
+    // 这儿 { type: 'CLEAR_CART' } 是传递给 dispatchCartAction 的 action，会传递给 cartReducer() 函数
     dispatchCartAction({ type: 'CLEAR_CART' });
   }
 
