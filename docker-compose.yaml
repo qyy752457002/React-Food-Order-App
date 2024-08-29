@@ -1,0 +1,45 @@
+version: '3.12'
+
+services: 
+  frontend:
+    build:
+      # 指定 Dockerfile 文件的位置
+      # 这里我们使用的是 frontend 服务的目录（.）下的 Dockerfile 文件
+      context: .
+      dockerfile: Dockerfile.frontend
+    # 将宿主机的 4173 端口映射到容器内的 4173 端口
+    ports: 
+      - "4173:4173"
+
+    # 将 frontend 服务的目录（./frontend）下的文件 挂载到容器工作目录 /app/frontend 下
+    # 这样可以在宿主机修改代码后，容器内会同步更新
+
+    volumes: 
+      - ./frontend:/app/frontend
+
+    # 依赖关系
+    # 这里我们指定了 backend 服务作为依赖关系，这意味着只有在 backend 服务启动后，frontend 服务才会启动
+    # 这样可以确保 frontend 服务能够正确地连接到backend
+    # 同时，frontend 服务也会在 backend 服务停止后自动停止
+    depends_on:
+      - backend
+
+    # 使用的镜像名称
+    image: krismile98/food-order-app:1.0
+
+  backend:
+    build:
+      # 指定 Dockerfile 文件的位置
+      # 这里我们使用的是 backend 服务的目录（.）下的 Dockerfile 文件
+      context: .
+      dockerfile: Dockerfile.backend
+    # 将宿主机的 3000 端口映射到容器内的 3000 端口
+    ports: 
+      - "3000:3000"
+
+    # 将 backend 服务的目录（./backend）下的文件 挂载到容器工作目录 /app/backend 下
+    # 这样可以在宿主机修改代码后，容器内会同步更新
+
+    volumes: 
+      - ./backend:/app/backend
+

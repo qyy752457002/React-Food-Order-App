@@ -1,0 +1,19 @@
+FROM node:21.1.0
+
+# establish directory /app/frontend
+RUN mkdir /app/frontend
+
+# set docker working directory to mkdir /app/frontend
+WORKDIR /app/frontend
+
+# copy content of frontend directory to docker working directory
+COPY ./frontend .
+
+# Install dependencies.
+RUN npm install 
+
+# Build the Next.js app.
+RUN npm run build
+
+# The default command to run when starting the container
+CMD ["npm", "run", "preview"]
