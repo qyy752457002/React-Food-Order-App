@@ -25,7 +25,7 @@ services:
       - backend
 
     # 使用的镜像名称
-    image: krismile98/food-order-app:1.0
+    image: krismile98/food-order-app:latest
 
   backend:
     build:

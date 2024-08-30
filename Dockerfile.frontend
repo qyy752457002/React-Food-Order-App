@@ -1,16 +1,16 @@
 FROM node:21.1.0
 
-# establish directory /app/frontend
-RUN mkdir /app/frontend
-
 # set docker working directory to mkdir /app/frontend
 WORKDIR /app/frontend
 
-# copy content of frontend directory to docker working directory
-COPY ./frontend .
+# Copy package.json and package-lock.json
+COPY ./frontend/package*.json .
 
 # Install dependencies.
-RUN npm install 
+RUN npm install
+
+# Copy the rest of the frontend directory into the container
+COPY ./frontend .
 
 # Build the Next.js app.
 RUN npm run build

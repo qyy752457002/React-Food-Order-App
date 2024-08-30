@@ -1,8 +1,5 @@
 FROM node:21.1.0
 
-# establish directory /app/backend
-RUN mkdir /app/backend
-
 # set docker working directory to /app/backend
 WORKDIR /app/backend
 
