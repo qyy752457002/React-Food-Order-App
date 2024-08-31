@@ -4,9 +4,9 @@ services:
   frontend:
     build:
       # 指定 Dockerfile 文件的位置
-      # 这里我们使用的是 frontend 服务的目录（.）下的 Dockerfile 文件
-      context: .
-      dockerfile: Dockerfile.frontend
+      # 这里我们使用的是 frontend 服务的目录（./frontend）下的 Dockerfile 文件
+      context: ./frontend
+      dockerfile: Dockerfile
     # 将宿主机的 4173 端口映射到容器内的 4173 端口
     ports: 
       - "4173:4173"
@@ -25,14 +25,14 @@ services:
       - backend
 
     # 使用的镜像名称
-    image: krismile98/food-order-app:latest
+    image: krismile98/food-order-app-frontend:latest
 
   backend:
     build:
       # 指定 Dockerfile 文件的位置
-      # 这里我们使用的是 backend 服务的目录（.）下的 Dockerfile 文件
-      context: .
-      dockerfile: Dockerfile.backend
+      # 这里我们使用的是 backend 服务的目录（./backend）下的 Dockerfile 文件
+      context: ./backend
+      dockerfile: Dockerfile
     # 将宿主机的 3000 端口映射到容器内的 3000 端口
     ports: 
       - "3000:3000"
@@ -42,4 +42,7 @@ services:
 
     volumes: 
       - ./backend:/app/backend
+
+    # 使用的镜像名称
+    image: krismile98/food-order-app-backend:latest
 

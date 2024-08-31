@@ -4,15 +4,18 @@ FROM node:21.1.0
 WORKDIR /app/frontend
 
 # Copy package.json and package-lock.json
-COPY ./frontend/package*.json .
+COPY package*.json .
 
 # Install dependencies.
 RUN npm install
 
-# Copy the rest of the frontend directory into the container
-COPY ./frontend .
+# add `/app/frontend/node_modules/.bin` to $PATH
+ENV PATH /app/frontend/node_modules/.bin:$PATH
 
-# Build the Next.js app.
+# Copy the rest of the frontend directory into the container
+COPY . .
+
+# Build the React app.
 RUN npm run build
 
 # The default command to run when starting the container

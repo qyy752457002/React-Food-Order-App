@@ -1,0 +1,26 @@
+在 Docker 容器内部重新安装 Node 模块：
+
+不要从本地环境复制 node_modules 文件夹，
+而是只复制 package.json 和 package-lock.json（或者 yarn.lock）到 Docker 容器中，
+然后在容器内运行 npm install（或者 yarn install）。这样可以确保安装正确的针对 Linux 平台的二进制文件。
+
+你可以将前端的 Dockerfile 更新为如下内容：
+
+    FROM node:21.1.0
+
+    WORKDIR /app/frontend
+
+    COPY ./frontend/package*.json ./
+
+    RUN npm install
+
+    COPY ./frontend .
+
+    RUN npm run build
+
+    CMD ["npm", "run", "preview"]
+
+解释：
+
+先复制 package.json 和 package-lock.json，然后运行 npm install，
+这样可以确保 esbuild 等依赖项正确地为 Linux 平台安装。
